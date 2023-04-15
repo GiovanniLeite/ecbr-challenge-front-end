@@ -3,12 +3,12 @@ import { Routes, Route } from 'react-router-dom';
 
 // import PrivateRoute from './PrivateRoute';
 
-import Home from '../pages/Home';
+import Offers from '../pages/Offers';
 
 export default function Routers() {
   return (
     <Routes>
-      <Route path="/" element={<Home />}></Route>
+      <Route path="/" element={<Offers />}></Route>
     </Routes>
   );
 }

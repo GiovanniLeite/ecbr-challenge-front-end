@@ -2,8 +2,8 @@ export const theme = {
   colors: {
     primary: '#0B1641',
     secondary: 'linear-gradient(45deg, #0B1641 0%, #C70160 100%)',
-    button1: '#C70160',
-    button2: '#16857B',
+    button: '#C70160',
+    discount: '#16857B',
   },
   spacings: {
     superSmall: '0.5rem',
