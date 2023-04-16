@@ -12,6 +12,7 @@ export const Container = styled.main`
     section {
       max-width: 1200px;
       margin: 0 auto;
+      z-index: 1;
 
       h1 {
         font-weight: 300;
@@ -68,11 +69,24 @@ export const Container = styled.main`
         }
 
         @media screen and (max-width: 680px) {
-          margin-bottom: 13px;
-          height: auto;
+          max-width: 380px;
+          padding: 0;
+          margin: 0 auto 13px;
+        }
+
+        @media screen and (max-width: 400px) {
+          padding: 0 10px;
+        }
+
+        @media screen and (max-width: 320px) {
+          padding: 0 8px;
         }
 
         form {
+          @media screen and (max-width: 680px) {
+            padding-top: 17px;
+          }
+
           #search {
             display: flex;
             border-radius: 8px;
@@ -84,16 +98,27 @@ export const Container = styled.main`
               width: 323px;
             }
 
+            @media screen and (max-width: 680px) {
+              width: 174px;
+            }
+
             button {
               cursor: pointer;
               border: none;
               border-radius: 8px;
               background-color: ${theme.colors.primary};
-              padding: 0 20px 0 20px;
+              padding: 3px 18px 0;
+              color: #858ba0;
+              font-size: 20px;
+
+              @media screen and (max-width: 680px) {
+                padding: 2px 14px 0;
+                font-size: 15px;
+              }
             }
 
             input {
-              width: calc(100% - 70px);
+              width: calc(100% - 65px);
               border: none;
               border-radius: 8px;
               background-color: ${theme.colors.primary};
@@ -104,11 +129,19 @@ export const Container = styled.main`
               font-style: normal;
               font-weight: 100;
               font-size: 18px;
+
+              @media screen and (max-width: 680px) {
+                width: calc(100% - 52px);
+                font-size: 14px;
+                padding: 10px 0;
+              }
             }
           }
         }
 
         div#ordination {
+          z-index: 3;
+
           & > span {
             margin-right: 20px;
             color: #fff;
@@ -155,15 +188,19 @@ export const Container = styled.main`
               justify-content: space-between;
 
               @media screen and (max-width: 680px) {
-                padding: 10px 8px;
-                min-width: auto;
+                padding: 10px 5px 10px 8px;
+                min-width: 122px;
               }
 
-              svg {
-                margin-left: 19px;
+              i {
+                font-size: 24px;
+                line-height: 22px;
+                margin-left: 7px;
 
                 @media screen and (max-width: 680px) {
-                  margin-left: 6px;
+                  font-size: 17px;
+                  line-height: 17px;
+                  margin-left: 2px;
                 }
               }
             }
@@ -187,12 +224,20 @@ export const Container = styled.main`
                 background-color: ${theme.colors.primary};
                 padding-bottom: 9px;
 
+                @media screen and (max-width: 680px) {
+                  padding-bottom: 7px;
+                }
+
                 li {
                   padding: 7px 17px;
+
+                  @media screen and (max-width: 680px) {
+                    padding: 10px 12px;
+                  }
                 }
 
                 li.active {
-                  color: ${theme.colors.button1};
+                  color: ${theme.colors.button};
                   font-weight: 400;
                 }
               }

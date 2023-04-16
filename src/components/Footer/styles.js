@@ -6,7 +6,7 @@ export const Container = styled.footer`
     background-color: ${theme.colors.primary};
     padding: 61px 0;
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 680px) {
       padding: 22px 0 5px;
     }
 
@@ -35,7 +35,7 @@ export const Container = styled.footer`
         justify-content: center;
 
         #desktopIcon {
-          @media screen and (max-width: 600px) {
+          @media screen and (max-width: 680px) {
             display: none;
           }
         }
@@ -43,7 +43,7 @@ export const Container = styled.footer`
         #mobileIcon {
           display: none;
 
-          @media screen and (max-width: 600px) {
+          @media screen and (max-width: 680px) {
             display: block;
           }
         }
@@ -58,9 +58,6 @@ export const Container = styled.footer`
 
         @media screen and (max-width: 680px) {
           text-align: center;
-        }
-
-        @media screen and (max-width: 600px) {
           font-size: 10px;
           line-height: 15px;
           max-width: 380px;
@@ -69,7 +66,7 @@ export const Container = styled.footer`
       }
 
       .footerLinks {
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 680px) {
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -81,7 +78,7 @@ export const Container = styled.footer`
           font-size: 14px;
           line-height: 25px;
 
-          @media screen and (max-width: 600px) {
+          @media screen and (max-width: 680px) {
             font-size: 12px;
             line-height: 22px;
             margin-bottom: 10px;
@@ -91,7 +88,7 @@ export const Container = styled.footer`
         a + a {
           margin-left: 46px;
 
-          @media screen and (max-width: 600px) {
+          @media screen and (max-width: 680px) {
             margin-left: 0;
           }
         }

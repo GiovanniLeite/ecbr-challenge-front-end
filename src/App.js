@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { HelmetProvider } from 'react-helmet-async';
+import { ToastContainer } from 'react-toastify';
 
 import { GlobalStyles } from './styles/global';
 import { theme } from './styles/theme';
@@ -17,6 +18,7 @@ function App() {
           <Header />
           <Routers />
           <Footer />
+          <ToastContainer autoClose={3000} className="toast-container" />
           <GlobalStyles />
         </HelmetProvider>
       </ThemeProvider>

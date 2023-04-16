@@ -1,23 +1,33 @@
 import PropTypes from 'prop-types';
 
+import { moneyFormat } from '../../utils/moneyFormat';
 import { Container } from './styles';
 
 export default function Card({ game }) {
+  let savings = Math.round(game.savings);
+
+  if (!Number.isNaN(savings)) {
+    savings = savings === 100 ? 'GRÁTIS' : `-${savings}%`;
+  } else {
+    savings = '-0%';
+  }
+
   return (
     <Container>
       <div id="cardContent">
         <div id="cardImage">
-          <img src={game.thumb} alt={game.title} />
+          <img src={game.thumb || '/assets/no-image.jpg'} alt={game.title} />
         </div>
-        <h2>{game.title}</h2>
+        <h2 title={game.title}>{game.title || 'Sem nome'}</h2>
+        {/* <h2 title={game.title}>{(game.title || 'Divinity: Original Sin 2 - Definitive Edition').slice(0, 30)}</h2> */}
         <div id="cardBottom">
           <button>DETALHES</button>
           <div id="price">
             <div>
-              <p>$ {game.normalPrice}</p>
-              <h3>$ {game.salePrice}</h3>
+              <p>$ {moneyFormat(game.normalPrice || game.salePrice || 0)}</p>
+              <h3>$ {moneyFormat(game.salePrice || 0)}</h3>
             </div>
-            <span>-{Math.round(game.savings)}%</span>
+            <span>{savings}</span>
           </div>
         </div>
       </div>

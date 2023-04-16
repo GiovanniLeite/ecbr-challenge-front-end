@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import axios from '../../services/axios';
 
@@ -14,18 +15,63 @@ export default function Offers() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    async function getData() {
-      try {
-        const { data } = await axios.get('/api/1.0/deals?pageNumber=0&pageSize=12&storeID=1&onSale=1&AAA=1/');
-
-        setGameList(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
     getData();
   }, []);
+
+  const getData = async () => {
+    try {
+      // const { data } = await axios.get('/api/1.0/deals?pageNumber=0&pageSize=12&storeID=1&onSale=1&AAA=1');
+
+      // setGameList(data);
+      setGameList([
+        {
+          internalName: 'SHADOWTACTICSBLADESOFTHESHOGUN',
+          // title: null, // 'Shadow Tactics: Blades of the Shogun',
+          metacriticLink: '/game/pc/shadow-tactics-blades-of-the-shogun',
+          dealID: 'j2lexFQ%2Fx%2FOeqECYZgxWgBxj7YX3hcQs0N3Y8mn8kHk%3D',
+          storeID: '1',
+          gameID: '158443',
+          salePrice: '3.99',
+          normalPrice: '39.99',
+          isOnSale: '1',
+          savings: '90.022506',
+          metacriticScore: '85',
+          steamRatingText: 'Overwhelmingly Positive',
+          steamRatingPercent: '96',
+          steamRatingCount: '26903',
+          steamAppID: '418240',
+          releaseDate: 1480982400,
+          lastChange: 1681594022,
+          dealRating: '9.7',
+          thumb: null, // 'https://cdn.cloudflare.steamstatic.com/steam/apps/418240/capsule_sm_120.jpg?t=1674570965',
+        },
+        {
+          internalName: 'WARHAMMERENDTIMESVERMINTIDE',
+          title: 'Warhammer: End Times - Vermintide',
+          metacriticLink: '/game/pc/warhammer-end-times---vermintide',
+          dealID: 'IFYr9AIXHCkSKU0rkj1Tl2V1Cvk%2BWPz%2FmGaH2%2F%2BufYc%3D',
+          storeID: '1',
+          gameID: '145156',
+          salePrice: '2.99',
+          normalPrice: '29.99',
+          isOnSale: '1',
+          savings: '90.030010',
+          metacriticScore: '79',
+          steamRatingText: 'Very Positive',
+          steamRatingPercent: '82',
+          steamRatingCount: '12741',
+          steamAppID: '235540',
+          releaseDate: 1445558400,
+          lastChange: 1681594217,
+          dealRating: '9.3',
+          thumb: 'https://cdn.cloudflare.steamstatic.com/steam/apps/235540/capsule_sm_120.jpg?t=1656431954',
+        },
+      ]);
+    } catch (err) {
+      console.log(err);
+      toast.error('Erro ao encontrar jogos.');
+    }
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -48,30 +94,17 @@ export default function Offers() {
             <form onSubmit={handleSearch}>
               <div id="search">
                 <button type="submit">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M11.965 11.255H12.755L17.745 16.255L16.255 17.745L11.255 12.755V11.965L10.985 11.685C9.845 12.665 8.365 13.255 6.755 13.255C3.165 13.255 0.255005 10.345 0.255005 6.755C0.255005 3.165 3.165 0.255005 6.755 0.255005C10.345 0.255005 13.255 3.165 13.255 6.755C13.255 8.365 12.665 9.845 11.685 10.985L11.965 11.255ZM2.255 6.755C2.255 9.245 4.26501 11.255 6.755 11.255C9.245 11.255 11.255 9.245 11.255 6.755C11.255 4.26501 9.245 2.255 6.755 2.255C4.26501 2.255 2.255 4.26501 2.255 6.755Z"
-                      fill="white"
-                      fillOpacity="0.5"
-                    />
-                  </svg>
+                  <i className="bx bx-search"></i>
                 </button>
                 <input type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Procurar" />
               </div>
             </form>
             <div id="ordination">
-              <span>Odenar por:</span>
+              <span>Ordenar por:</span>
               <ul id="order">
                 <span onClick={() => setVisible(!visible)}>
                   {order}
-                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M10.59 0.294998L6 4.875L1.41 0.294998L0 1.705L6 7.705L12 1.705L10.59 0.294998Z"
-                      fill="white"
-                    />
-                  </svg>
+                  <i className="bx bx-chevron-down"></i>
                 </span>
                 <li className={visible ? 'visible' : 'hidden'}>
                   <ul>
@@ -96,8 +129,8 @@ export default function Offers() {
             </div>
           </div>
           <div id="games">
-            {gameList.map((e) => (
-              <Card key={e.gameID} game={e} />
+            {gameList.map((game) => (
+              <Card key={game.gameID} game={game} />
             ))}
           </div>
           <button id="viewMore">Carregar mais</button>
