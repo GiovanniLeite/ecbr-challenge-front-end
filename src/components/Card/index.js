@@ -19,7 +19,6 @@ export default function Card({ game }) {
           <img src={game.thumb || '/assets/no-image.jpg'} alt={game.title} />
         </div>
         <h2 title={game.title}>{game.title || 'Sem nome'}</h2>
-        {/* <h2 title={game.title}>{(game.title || 'Divinity: Original Sin 2 - Definitive Edition').slice(0, 30)}</h2> */}
         <div id="cardBottom">
           <button>DETALHES</button>
           <div id="price">

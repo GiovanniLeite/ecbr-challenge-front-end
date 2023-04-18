@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -6,86 +7,66 @@ import axios from '../../services/axios';
 
 import Card from '../../components/Card';
 import { Container } from './styles';
+import Loading from '../../components/Loading';
 
 export default function Offers() {
+  const [isLoading, setIsLoading] = useState(false);
   const [gameList, setGameList] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(''); // Busca
+  const [currentPage, setCurrentPage] = useState(0); // Página atual
+
   // Ordenação
-  const [order, setOrder] = useState('% de Desconto');
-  const [visible, setVisible] = useState(false);
+  const [order, setOrder] = useState(['% de Desconto', 'savings']); // Nome e parâmetro de URL
+  const [visible, setVisible] = useState(false); // Visibilidade das opções de ordenação
 
-  useEffect(() => {
-    getData();
-  }, []);
+  const getData = async (viewMorePage, orderParamUrl) => {
+    setIsLoading(true);
 
-  const getData = async () => {
     try {
-      // const { data } = await axios.get('/api/1.0/deals?pageNumber=0&pageSize=12&storeID=1&onSale=1&AAA=1');
+      // Usa os parâmetros enviados se foi disparado pelo "Carregar mais" ou "Ordenar por"
+      const { data } = await axios.get(
+        `/api/1.0/deals?pageNumber=${viewMorePage || 0}&pageSize=12&storeID=1&onSale=1&AAA=1&sortBy=${
+          orderParamUrl[1] || order[1]
+        }&title=${search}`,
+      );
 
-      // setGameList(data);
-      setGameList([
-        {
-          internalName: 'SHADOWTACTICSBLADESOFTHESHOGUN',
-          // title: null, // 'Shadow Tactics: Blades of the Shogun',
-          metacriticLink: '/game/pc/shadow-tactics-blades-of-the-shogun',
-          dealID: 'j2lexFQ%2Fx%2FOeqECYZgxWgBxj7YX3hcQs0N3Y8mn8kHk%3D',
-          storeID: '1',
-          gameID: '158443',
-          salePrice: '3.99',
-          normalPrice: '39.99',
-          isOnSale: '1',
-          savings: '90.022506',
-          metacriticScore: '85',
-          steamRatingText: 'Overwhelmingly Positive',
-          steamRatingPercent: '96',
-          steamRatingCount: '26903',
-          steamAppID: '418240',
-          releaseDate: 1480982400,
-          lastChange: 1681594022,
-          dealRating: '9.7',
-          thumb: null, // 'https://cdn.cloudflare.steamstatic.com/steam/apps/418240/capsule_sm_120.jpg?t=1674570965',
-        },
-        {
-          internalName: 'WARHAMMERENDTIMESVERMINTIDE',
-          title: 'Warhammer: End Times - Vermintide',
-          metacriticLink: '/game/pc/warhammer-end-times---vermintide',
-          dealID: 'IFYr9AIXHCkSKU0rkj1Tl2V1Cvk%2BWPz%2FmGaH2%2F%2BufYc%3D',
-          storeID: '1',
-          gameID: '145156',
-          salePrice: '2.99',
-          normalPrice: '29.99',
-          isOnSale: '1',
-          savings: '90.030010',
-          metacriticScore: '79',
-          steamRatingText: 'Very Positive',
-          steamRatingPercent: '82',
-          steamRatingCount: '12741',
-          steamAppID: '235540',
-          releaseDate: 1445558400,
-          lastChange: 1681594217,
-          dealRating: '9.3',
-          thumb: 'https://cdn.cloudflare.steamstatic.com/steam/apps/235540/capsule_sm_120.jpg?t=1656431954',
-        },
-      ]);
+      let games = data;
+
+      if (viewMorePage) games = [...gameList, ...data];
+      if (orderParamUrl[0] === 'Maior Preço') games.reverse();
+
+      setGameList(games);
     } catch (err) {
       console.log(err);
       toast.error('Erro ao encontrar jogos.');
     }
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    getData(false, false);
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
+    getData(false, false);
   };
 
-  const handleOrder = (name) => {
-    setOrder(name);
+  const handleOrder = (nameAndUrl) => {
+    setOrder(nameAndUrl);
     setVisible(false);
+    getData(false, nameAndUrl);
+  };
+
+  const handleViewMore = () => {
+    setCurrentPage(currentPage + 1);
+    getData(currentPage + 1, false);
   };
 
   return (
     <>
       <Helmet>
-        <title>Ofertas | Game Tracker</title>
+        <title>Game Tracker</title>
       </Helmet>
       <Container>
         <section>
@@ -103,24 +84,33 @@ export default function Offers() {
               <span>Ordenar por:</span>
               <ul id="order">
                 <span onClick={() => setVisible(!visible)}>
-                  {order}
+                  {order[0]}
                   <i className="bx bx-chevron-down"></i>
                 </span>
                 <li className={visible ? 'visible' : 'hidden'}>
                   <ul>
                     <li
-                      onClick={() => handleOrder('% de Desconto')}
-                      className={order === '% de Desconto' ? 'active' : ''}
+                      onClick={() => handleOrder(['% de Desconto', 'savings'])}
+                      className={order[0] === '% de Desconto' ? 'active' : ''}
                     >
                       % de Desconto
                     </li>
-                    <li onClick={() => handleOrder('Maior Preço')} className={order === 'Maior Preço' ? 'active' : ''}>
+                    <li
+                      onClick={() => handleOrder(['Maior Preço', 'recent'])}
+                      className={order[0] === 'Maior Preço' ? 'active' : ''}
+                    >
                       Maior Preço
                     </li>
-                    <li onClick={() => handleOrder('Menor Preço')} className={order === 'Menor Preço' ? 'active' : ''}>
+                    <li
+                      onClick={() => handleOrder(['Menor Preço', 'price'])}
+                      className={order[0] === 'Menor Preço' ? 'active' : ''}
+                    >
                       Menor Preço
                     </li>
-                    <li onClick={() => handleOrder('Título')} className={order === 'Título' ? 'active' : ''}>
+                    <li
+                      onClick={() => handleOrder(['Título', 'title'])}
+                      className={order[0] === 'Título' ? 'active' : ''}
+                    >
                       Título
                     </li>
                   </ul>
@@ -133,7 +123,10 @@ export default function Offers() {
               <Card key={game.gameID} game={game} />
             ))}
           </div>
-          <button id="viewMore">Carregar mais</button>
+          {isLoading && <Loading />}
+          <button id="viewMore" onClick={() => handleViewMore()}>
+            Carregar mais
+          </button>
         </section>
       </Container>
     </>

@@ -4,6 +4,7 @@ export const Container = styled.main`
   ${({ theme }) => css`
     background: ${theme.colors.secondary};
     padding: 45px 0;
+    min-height: 650px;
 
     @media screen and (max-width: 680px) {
       padding: 16px 0 32px;

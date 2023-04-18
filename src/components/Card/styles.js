@@ -38,6 +38,9 @@ export const Container = styled.div`
         font-weight: 300;
         font-size: 24px;
         margin: 7px 16px 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
 
         @media screen and (max-width: 320px) {
           font-size: 18px;
