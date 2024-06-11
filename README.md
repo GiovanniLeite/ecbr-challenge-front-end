@@ -1,4 +1,4 @@
-# ECBR Frontend Challenge
+# ECBR Front-end Challenge
 
 Check it out here: [https://ecbr-teste-front-end.vercel.app](https://ecbr-teste-front-end.vercel.app)
 
